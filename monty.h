@@ -1,5 +1,6 @@
 #ifndef FUNCS
 #define FUNCS
+#include <stddef.h>
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -31,7 +32,10 @@ typedef struct instruction_s
 } instruction_t;
 
 stack_t *add_node(stack_t **head, const int n);
-size_t print_list(const stack_t *h);
-
+size_t print_list(stack_t *h);
+int pop(stack_t **head);
+int delete(stack_t **head, unsigned int index);
+int swap_first_ones(stack_t **h);
+int sum_first_ones(stack_t **h);
 
 #endif
