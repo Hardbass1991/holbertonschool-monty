@@ -8,11 +8,10 @@
 int main(int ac, char **av)
 {
 	FILE *fp;
-	char *line = NULL, *token;
+	char *line = NULL;
 	ssize_t read;
-	size_t len;
-	int i, j = 1;
-	char **argv;
+	size_t len = 0, j = 0;
+	char **argl;
 	stack_t *stack;
 	instruction_t operation_opcode;
 
@@ -28,39 +27,22 @@ int main(int ac, char **av)
 	}
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
-		printf("%s", line);
-		argv = malloc((get_num_words(line) + 2) * sizeof(char *));
-		if (!argv)
+		argl = token_line(line);
+		
+		if (!strcmp(argl[0], "push"))
 		{
-			printf("Error: malloc failed");
-			exit(EXIT_FAILURE);
-		}
-		token = strtok(line, " ");
-		i = 0;
-		while (token)
-		{
-			argv[i] = token;
-			token = strtok(NULL, " ");
-			i++;
-		}
-		argv[i - 1][strlen(argv[0]) - 1] = '\0';
-		for (i = 0; argv[i] != NULL; i++)
-			printf("[%d] %s\n", i, argv[i]);
-
-		if (!strcmp(argv[0], "push"))
-		{
-			monty_push(&stack, argv[1], j);
+			monty_push(&stack, argl[1], j);
 		}
 		else
 		{
-			operation_opcode = search_opcode(argv[0]);
+			operation_opcode = search_opcode(argl[0]);
 
 			if (operation_opcode.f != NULL)
 			{
 				operation_opcode.f(&stack, j);
 			}
 		}
-		free(argv);
+		free(argl);
 	}
 	return (0);
 }
@@ -92,6 +74,34 @@ instruction_t search_opcode(char *opcode)
 	}
 
 	return (option[i]);
+}
+/**
+ * token_line - function that split the line.
+ * @line : The pointer to bytecode line.
+ * Return: The pointer to tokens.
+ */
+char **token_line(char *line)
+{
+	char *token = NULL;
+	char **arg_tok = NULL;
+	int i = 0;
+
+	arg_tok = malloc((get_num_words(line) + 2) * sizeof(char *));
+	if (!arg_tok)
+	{
+		printf("Error: malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	token = strtok(line, " ");
+	i = 0;
+	while (token)
+	{
+		arg_tok[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+	arg_tok[i - 1][strlen(arg_tok[0]) - 1] = '\0';
+	return (arg_tok);
 }
 /**
  * get_num_words - function get number of words in a line.
