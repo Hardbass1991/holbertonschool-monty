@@ -1,26 +1,11 @@
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include "monty.h"
-
-int get_num_words(char *line)
-{
-	int i = 0, n = 1;
-
-	while (line[i])
-	{
-		if (line[i] == ' ')
-			n++;
-		i++;
-	}
-	return (n);
-}
-
-int main()
+/**
+ * main - function main.
+ * @ac : The number of arguments
+ * @av : The pointer to an array of inputed arguments.
+ * Return: always (0);
+ */
+int main(int ac, char **av)
 {
 	FILE *fp;
 	char *line = NULL, *token;
@@ -29,9 +14,13 @@ int main()
 	int i, j = 1;
 	char **argv;
 	stack_t *stack;
-	
+	instruction_t operation_opcode;
+
+	if (ac != 2)
+		fprintf(stderr, "%s\n", "USAGE: monty file");
+
 	stack = NULL;
-	fp = fopen("test.m", "r");
+	fp = fopen(av[1], "r");
 	if (!fp)
 	{
 		printf("Error: Can't open file test.m");
@@ -52,70 +41,72 @@ int main()
 		{
 			argv[i] = token;
 			token = strtok(NULL, " ");
-			i++;				
+			i++;
 		}
 		argv[i - 1][strlen(argv[0]) - 1] = '\0';
 		for (i = 0; argv[i] != NULL; i++)
 			printf("[%d] %s\n", i, argv[i]);
+
 		if (!strcmp(argv[0], "push"))
 		{
-			if (!argv[1] || (!atoi(argv[1]) && strcmp(argv[1], "0")))
-			{
-				printf("L%d: usage: push integer", j);
-				exit(EXIT_FAILURE);		
-			}
-			else
-				add_node(&stack, atoi(argv[1]));
+			monty_push(&stack, argv[1], j);
+		}
+		else
+		{
+			operation_opcode = search_opcode(argv[0]);
 
-		}
-		else if (!strcmp(argv[0], "pall"))
-			print_list(stack);
-		else if (!strcmp(argv[0], "pint"))
-		{
-			if (!stack)
+			if (operation_opcode.f != NULL)
 			{
-				printf("L%d: can't pint, stack empty", j);
-				exit(EXIT_FAILURE);
+				operation_opcode.f(&stack, j);
 			}
-			else
-				printf("%d\n", stack->n);
-		}
-		else if (!strcmp(argv[0], "pop"))
-		{
-			if (!stack)
-			{
-				printf("L%d: can't pop an empty stack", j);
-				exit(EXIT_FAILURE);
-			}
-			else
-				pop(&stack);
-		}
-		else if (!strcmp(argv[0], "swap"))
-		{
-			if (!stack->next->n)
-			{
-				printf("L%d: can't swap, stack too short", j);
-				exit(EXIT_FAILURE);
-			}
-			else
-				swap_first_ones(&stack);
-		}
-		else if (!strcmp(argv[0], "add"))
-		{
-			if (!stack->next->n)
-			{
-				printf("L%d: can't add, stack too short", j);
-				exit(EXIT_FAILURE);
-			}
-			else
-				sum_first_ones(&stack);
-		}
-		else if (strcmp(argv[0], "nop"))
-		{
-			printf("L%d: unknown instruction %s\n", j, argv[0]);
-			exit(EXIT_FAILURE);
 		}
 		free(argv);
 	}
-	return 0;
+	return (0);
+}
+/**
+ * search_opcode - function that pushes an element to stack
+ * @opcode : look the opcode to run
+ * Return: a instruction_t structure
+ */
+instruction_t search_opcode(char *opcode)
+{
+	int i = 0;
+
+	instruction_t option[] = {
+		{"pall", monty_pall},
+		{"pint", monty_pint},
+		{"pop", monty_pop},
+		{"swap", monty_swap},
+		{"add", monty_add},
+		{"nop", monty_nop},
+		{NULL, NULL}
+	};
+
+	for (i = 0; option[i].f != NULL; i++)
+	{
+		if (strcmp(option[i].opcode, opcode) == 0)
+		{
+			return (option[i]);
+		}
+	}
+
+	return (option[i]);
+}
+/**
+ * get_num_words - function get number of words in a line.
+ * @line : string.
+ * Return: number of words.
+ */
+int get_num_words(char *line)
+{
+	int i = 0, n = 1;
+
+	while (line[i])
+	{
+		if (line[i] == ' ')
+			n++;
+		i++;
+	}
+	return (n);
 }
