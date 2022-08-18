@@ -39,7 +39,7 @@ int main(int ac, char **av)
 				operation_opcode.f(&stack, j);
 			else
 			{
-				fprintf(stderr, "L%d: unknown instruction %s\n", argl[0]);
+				fprintf(stderr, "L%ld: unknown instruction %s\n", j, argl[0]);
 				exit(EXIT_FAILURE);
 			}
 		}
