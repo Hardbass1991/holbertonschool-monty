@@ -10,7 +10,7 @@ int main(int ac, char **av)
 	FILE *fp;
 	char *line = NULL;
 	ssize_t read;
-	size_t len = 0, j = 0;
+	size_t len = 0, j = 1;
 	char **argl;
 	stack_t *stack;
 	instruction_t operation_opcode;
@@ -22,13 +22,13 @@ int main(int ac, char **av)
 	fp = fopen(av[1], "r");
 	if (!fp)
 	{
-		printf("Error: Can't open file test.m");
+		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
 		argl = token_line(line);
-		
+
 		if (!strcmp(argl[0], "push"))
 		{
 			monty_push(&stack, argl[1], j);
@@ -43,6 +43,7 @@ int main(int ac, char **av)
 			}
 		}
 		free(argl);
+		j++;
 	}
 	return (0);
 }
@@ -89,7 +90,7 @@ char **token_line(char *line)
 	arg_tok = malloc((get_num_words(line) + 2) * sizeof(char *));
 	if (!arg_tok)
 	{
-		printf("Error: malloc failed");
+		fprintf(stderr, "Error: malloc failed");
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, " ");

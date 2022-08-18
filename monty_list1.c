@@ -10,7 +10,7 @@ void monty_push(stack_t **stack, char *value, unsigned int line_number)
 {
 	if (!value || (!atoi(value) && strcmp(value, "0")))
 	{
-		printf("L%d: usage: push integer", line_number);
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	else

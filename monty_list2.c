@@ -10,7 +10,7 @@ void monty_pint(stack_t **stack, unsigned int line_number)
 {
 	if (!stack)
 	{
-		printf("L%d: can't pint, stack empty", line_number);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -26,7 +26,7 @@ void monty_pop(stack_t **stack, unsigned int line_number)
 {
 	if (!stack)
 	{
-		printf("L%d: can't pop an empty stack", line_number);
+		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -42,7 +42,7 @@ void monty_swap(stack_t **stack, unsigned int line_number)
 {
 	if (!(*stack)->next->n)
 	{
-		printf("L%d: can't swap, stack too short", line_number);
+		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -58,7 +58,7 @@ void monty_add(stack_t **stack, unsigned int line_number)
 {
 	if (!(*stack)->next->n)
 	{
-		printf("L%d: can't add, stack too short", line_number);
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -74,6 +74,6 @@ void monty_nop(stack_t **stack, unsigned int line_number)
 {
 	(void)stack;
 
-	printf("L%d: unknown instruction %s\n", line_number, "nop");
+	fprintf(stderr, "L%d: unknown instruction %s\n", line_number, "nop");
 	exit(EXIT_FAILURE);
 }
