@@ -16,7 +16,10 @@ int main(int ac, char **av)
 	instruction_t operation_opcode;
 
 	if (ac != 2)
+	{
 		fprintf(stderr, "%s\n", "USAGE: monty file");
+		return (1);
+	}
 
 	stack = NULL;
 	fp = fopen(av[1], "r");
