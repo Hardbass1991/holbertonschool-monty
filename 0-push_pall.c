@@ -18,9 +18,8 @@ int main(int ac, char **av)
 	if (ac != 2)
 	{
 		fprintf(stderr, "%s\n", "USAGE: monty file");
-		return (1);
+		exit(EXIT_FAILURE);
 	}
-
 	stack = NULL;
 	fp = fopen(av[1], "r");
 	if (!fp)
@@ -31,18 +30,17 @@ int main(int ac, char **av)
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
 		argl = token_line(line);
-
 		if (!strcmp(argl[0], "push"))
-		{
 			monty_push(&stack, argl[1], j);
-		}
 		else
 		{
 			operation_opcode = search_opcode(argl[0]);
-
 			if (operation_opcode.f != NULL)
-			{
 				operation_opcode.f(&stack, j);
+			else
+			{
+				fprintf(stderr, "L%d: unknown instruction %s\n", argl[0]);
+				exit(EXIT_FAILURE);
 			}
 		}
 		free(argl);
