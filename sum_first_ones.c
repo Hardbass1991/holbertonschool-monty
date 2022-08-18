@@ -11,6 +11,6 @@
 int sum_first_ones(stack_t **h)
 {
 	(*h)->n += (*h)->next->n;
-	delete(h, 1); 
+	delete(h, 1);
 	return (1);
 }

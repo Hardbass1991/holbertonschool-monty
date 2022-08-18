@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 /**
- * add_dnodeint - adds a new node at the beginning of a stack_t list.
+ * add_node - adds a new node at the beginning of a stack_t list.
  * @head: pointer to the head of the list
  * @n: value to be given to the new node
  *

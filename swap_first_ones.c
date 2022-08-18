@@ -21,6 +21,6 @@ int swap_first_ones(stack_t **h)
 	if (*h)
 		(*h)->prev = tmp;
 	(*h) = tmp;
-	delete(h, 2); 
+	delete(h, 2);
 	return (1);
 }
