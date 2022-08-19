@@ -10,7 +10,7 @@ int main(int ac, char **av)
 	FILE *fp;
 	char *line = NULL;
 	ssize_t read;
-	size_t len = 0, j = 1, i;
+	size_t len = 0, j = 1;
 	char **argl;
 	stack_t *stack;
 	instruction_t operation_opcode;
