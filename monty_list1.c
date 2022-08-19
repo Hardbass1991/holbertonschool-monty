@@ -8,7 +8,7 @@
  */
 void monty_push(stack_t **stack, char *value, unsigned int line_number)
 {
-	if (!value || (!atoi(value) && strcmp(value, "0")))
+	if (!value || !strlen(value) || !is_integer(value))
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
