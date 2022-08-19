@@ -73,7 +73,5 @@ void monty_add(stack_t **stack, unsigned int line_number)
 void monty_nop(stack_t **stack, unsigned int line_number)
 {
 	(void)stack;
-
-	fprintf(stderr, "L%d: unknown instruction %s\n", line_number, "nop");
-	exit(EXIT_FAILURE);
+	(void)line_number;
 }
