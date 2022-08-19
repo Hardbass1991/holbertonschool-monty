@@ -38,9 +38,12 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 /*0-push_pall.c*/
+void  process_file(FILE *file);
 instruction_t search_opcode(char *opcode);
 char **token_line(char *line);
 int get_num_words(char *line);
+/*free.c*/
+void free_nodes(stack_t *head);
 /*functions to execute the opcode*/
 stack_t *add_node(stack_t **head, const int n);
 size_t print_list(stack_t *h);
