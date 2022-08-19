@@ -10,7 +10,7 @@ int main(int ac, char **av)
 	FILE *fp;
 	char *line = NULL;
 	ssize_t read;
-	size_t len = 0, j = 1;
+	size_t len = 0, j = 1, i;
 	char **argl;
 	stack_t *stack;
 	instruction_t operation_opcode;
@@ -30,6 +30,11 @@ int main(int ac, char **av)
 	while ((read = getline(&line, &len, fp)) != -1)
 	{
 		argl = token_line(line);
+		if (line[0] == '\n' || !strlen(argl[0]))
+		{
+			j++;
+			continue;
+		}
 		if (!strcmp(argl[0], "push"))
 			monty_push(&stack, argl[1], j);
 		else
@@ -86,7 +91,7 @@ char **token_line(char *line)
 {
 	char *token = NULL;
 	char **arg_tok = NULL;
-	int i = 0;
+	int i;
 
 	arg_tok = malloc((get_num_words(line) + 2) * sizeof(char *));
 	if (!arg_tok)
@@ -102,7 +107,7 @@ char **token_line(char *line)
 		token = strtok(NULL, " ");
 		i++;
 	}
-	arg_tok[i - 1][strlen(arg_tok[0]) - 1] = '\0';
+	arg_tok[i - 1][strlen(arg_tok[i - 1]) - 1] = '\0';
 	return (arg_tok);
 }
 /**
