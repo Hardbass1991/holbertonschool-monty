@@ -15,12 +15,13 @@ void  process_file(FILE *file)
 
 	while ((read = getline(&line, &len, file)) != -1)
 	{
-		argl = token_line(line);
-		if (line[0] == '\n' || !strlen(argl[0]))
+		if (validate_spaces(line))
 		{
 			j++;
 			continue;
 		}
+		argl = token_line(line);
+
 		if (!strcmp(argl[0], "push"))
 			monty_push(&stack, argl[1], j);
 		else
@@ -115,4 +116,22 @@ int get_num_words(char *line)
 		i++;
 	}
 	return (n);
+}
+/**
+ * validate_spaces - Validate spaces, tabs and line breaks
+ * @input: string from input
+ * Return: 1 if only find spaces, tabs or line break
+ */
+int validate_spaces(char *input)
+{
+	int i = 0, flag = 1, len = 0;
+
+	len = strlen(input);
+
+	while (input[i] == ' ' || input[i] == '\n' || input[i] == '\t')
+		i++;
+
+	if (i != len)
+		flag = 0;
+	return (flag);
 }

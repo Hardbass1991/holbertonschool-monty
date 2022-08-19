@@ -42,6 +42,7 @@ void  process_file(FILE *file);
 instruction_t search_opcode(char *opcode);
 char **token_line(char *line);
 int get_num_words(char *line);
+int validate_spaces(char *input);
 /*free.c*/
 void free_nodes(stack_t *head);
 /*functions to execute the opcode*/
