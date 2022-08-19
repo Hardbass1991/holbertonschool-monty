@@ -10,10 +10,15 @@
  */
 int pop(stack_t **head)
 {
-	if (!(*head))
+	stack_t *temp = *head;
+
+	if (!temp)
 		return (-1);
-	if ((*head)->next)
-		(*head)->next->prev = NULL;
-	(*head) = (*head)->next;
+	if (temp->next)
+	{
+		temp->next->prev = temp->prev;
+	}
+	*head = temp->next;
+	free(temp);
 	return (1);
 }
