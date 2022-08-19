@@ -40,13 +40,15 @@ void monty_pop(stack_t **stack, unsigned int line_number)
  */
 void monty_swap(stack_t **stack, unsigned int line_number)
 {
-	if (!(*stack)->next->n)
+	if (*stack == NULL || !(*stack)->next->n)
 	{
 		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	else
+	{
 		swap_first_ones(stack);
+	}
 }
 /**
  * monty_add - function adds the top two elements of the stack.
