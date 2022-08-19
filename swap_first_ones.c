@@ -10,7 +10,7 @@
  */
 int swap_first_ones(stack_t **h)
 {
-	stack_t *tmp;
+	stack_t *tmp = NULL;
 
 	tmp = malloc(sizeof(stack_t));
 	if (!tmp)
