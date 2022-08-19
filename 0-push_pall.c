@@ -1,33 +1,19 @@
 #include "monty.h"
 /**
- * main - function main.
- * @ac : The number of arguments
- * @av : The pointer to an array of inputed arguments.
- * Return: always (0);
+ * process_file - function that read file line by line.
+ * @file : file to read
+ * Return: nothing;
  */
-int main(int ac, char **av)
+void  process_file(FILE *file)
 {
-	FILE *fp;
 	char *line = NULL;
 	ssize_t read;
 	size_t len = 0, j = 1;
 	char **argl;
-	stack_t *stack;
+	stack_t *stack = NULL;
 	instruction_t operation_opcode;
 
-	if (ac != 2)
-	{
-		fprintf(stderr, "%s\n", "USAGE: monty file");
-		exit(EXIT_FAILURE);
-	}
-	stack = NULL;
-	fp = fopen(av[1], "r");
-	if (!fp)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
-		exit(EXIT_FAILURE);
-	}
-	while ((read = getline(&line, &len, fp)) != -1)
+	while ((read = getline(&line, &len, file)) != -1)
 	{
 		argl = token_line(line);
 		if (line[0] == '\n' || !strlen(argl[0]))
@@ -41,7 +27,9 @@ int main(int ac, char **av)
 		{
 			operation_opcode = search_opcode(argl[0]);
 			if (operation_opcode.f != NULL)
+			{
 				operation_opcode.f(&stack, j);
+			}
 			else
 			{
 				fprintf(stderr, "L%ld: unknown instruction %s\n", j, argl[0]);
@@ -51,7 +39,8 @@ int main(int ac, char **av)
 		free(argl);
 		j++;
 	}
-	return (0);
+	free(line);
+	free_nodes(stack);
 }
 /**
  * search_opcode - function that pushes an element to stack
