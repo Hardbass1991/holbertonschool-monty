@@ -12,29 +12,39 @@
 int delete(stack_t **head, unsigned int index)
 {
 	unsigned int i = 0;
-	stack_t *ptr;
+	stack_t *ptr = NULL;
 
 	if (!(*head))
 		return (-1);
-	ptr = malloc(sizeof(stack_t));
-	if (!ptr)
-		return (-1);
-	if (index == 0)
+	/*if (index == 0)
 	{
 		if ((*head)->next)
 			(*head)->next->prev = NULL;
 		(*head) = (*head)->next;
 		return (1);
-	}
+		}*/
 	ptr = (*head);
-	while (ptr->next && i < index - 1)
+	while (ptr && i < index)
 	{
 		ptr = ptr->next;
 		i += 1;
 	}
-	if (index > i + 1)
+	if (index != i)
 		return (-1);
-	ptr->next = ptr->next->next;
-	ptr->next->prev = ptr->next->prev->prev;
+
+	if (ptr->next == NULL)
+	{
+		ptr->prev->next = NULL;
+		free(ptr);
+	}
+	else
+	{
+		ptr->prev->next = ptr->next;
+		ptr->next->prev = ptr->prev;
+		free(ptr);
+		/*ptr->next = ptr->next->next;
+		  ptr->next->prev = ptr->next->prev->prev;*/
+	}
+
 	return (1);
 }
