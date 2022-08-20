@@ -16,13 +16,7 @@ int delete(stack_t **head, unsigned int index)
 
 	if (!(*head))
 		return (-1);
-	/*if (index == 0)
-	{
-		if ((*head)->next)
-			(*head)->next->prev = NULL;
-		(*head) = (*head)->next;
-		return (1);
-		}*/
+
 	ptr = (*head);
 	while (ptr && i < index)
 	{
@@ -42,8 +36,8 @@ int delete(stack_t **head, unsigned int index)
 		ptr->prev->next = ptr->next;
 		ptr->next->prev = ptr->prev;
 		free(ptr);
-		/*ptr->next = ptr->next->next;
-		  ptr->next->prev = ptr->next->prev->prev;*/
+		/*ptr->next = ptr->next->next;*/
+		/*ptr->next->prev = ptr->next->prev->prev;*/
 	}
 
 	return (1);
